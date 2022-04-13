@@ -14,9 +14,9 @@ const friendSchema = new dynamoose.Schema({
 const friendModel = dynamoose.model('friends', friendSchema)
 
 exports.handler = async (event) => {
-  const { pathParameters, queryStringParameters } = event;
-  console.log('\nLogging event keys:\n ', Object.keys(event));
-  const id = pathParameters.id;
+  // const { pathParameters, queryStringParameters } = event;
+  const { pathParameters } = event;
+  const id = pathParameters.id || null;
 
   // NEVER declare response with const
   let response = { statusCode: null, body: null };
