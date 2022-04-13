@@ -25,8 +25,10 @@ exports.handler = async (event) => {
     try {
       // perform the CRUD using our specified schema
       if(id){
+        // This queries using the id
         friendRecords = await friendModel.query('id').eq(id);
       } else {
+        // This scans all
         friendRecords = await friendModel.scan().exec();
       }
       response.statusCode = 200;
