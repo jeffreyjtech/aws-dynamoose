@@ -14,30 +14,30 @@ const friendSchema = new dynamoose.Schema({
 const friendModel = dynamoose.model('friends', friendSchema)
 
 exports.handler = async (event) => {
-    const { pathParameters, queryStringParameters } = event;
-    console.log(pathParameters, queryStringParameters)
-    const { id } = pathParameters;
+  const { pathParameters, queryStringParameters } = event;
+  console.log(event)
+  const id = pathParameters.id;
 
-    // NEVER declare response with const
-    let response = { statusCode: null, body: null };
-    let friendRecords = [];
-    
-    try {
-      // perform the CRUD using our specified schema
-      if(id){
-        // This queries using the id
-        friendRecords = await friendModel.query('id').eq(id).exec();
-      } else {
-        // This scans all
-        friendRecords = await friendModel.scan().exec();
-      }
-      response.statusCode = 200;
-      response.body = JSON.stringify(friendRecords);
-    } catch (e) {
-      console.error(e);
-      response.statusCode = 500;
-      response.body = JSON.stringify(e);
+  // NEVER declare response with const
+  let response = { statusCode: null, body: null };
+  let friendRecords = [];
+  
+  try {
+    // perform the CRUD using our specified schema
+    if(id){
+      // This queries using the id
+      friendRecords = await friendModel.query('id').eq(id).exec();
+    } else {
+      // This scans all
+      friendRecords = await friendModel.scan().exec();
     }
+    response.statusCode = 200;
+    response.body = JSON.stringify(friendRecords);
+  } catch (e) {
+    console.error(e);
+    response.statusCode = 500;
+    response.body = JSON.stringify(e);
+  }
 
-    return response;
+  return response;
 };
